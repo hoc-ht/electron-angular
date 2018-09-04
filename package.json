@@ -1,13 +1,24 @@
 {
   "name": "electron-angular",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "author": "Hoang Thai Hoc <thaihoc06@gmail.com>",
+  "license": "MIT",
+  "main": "src/electron.js",
   "scripts": {
+    "start": "npm run electron-dev",
+    "build": "npm run electron-dist",
+    "build:pack": "npm run electron-pack",
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "angular-start": "ng serve",
+    "angular-build": "ng build --prod --base-href ./",
+    "angular-test": "ng test",
+    "angular-lint": "ng lint",
+    "angular-e2e": "ng e2e",
+    "electron-dev": "concurrently \"npm run angular-start\" \"wait-on http://localhost:4200 && electron .\"",
+    "electron-pack": "electron-builder --dir",
+    "preelectron-pack": "npm run angular-build",
+    "electron-dist": "electron-builder",
+    "preelectron-dist": "npm run angular-build"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +32,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "core-js": "^2.5.4",
+    "electron-is-dev": "^0.3.0",
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26"
   },
@@ -33,6 +45,10 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.2.1",
+    "concurrently": "^4.0.1",
+    "cpx": "^1.5.0",
+    "electron": "^2.0.8",
+    "electron-builder": "^20.28.3",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.1",
@@ -43,6 +59,19 @@
     "protractor": "~5.4.0",
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2"
+    "typescript": "~2.7.2",
+    "wait-on": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.hocht.electron.angular.starter",
+    "productName": "Electron Angular 6 Starter kit",
+    "files": [
+      "build/**/*",
+      "src/electron.js"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "icon": "build/favicon_app.ico"
   }
 }
